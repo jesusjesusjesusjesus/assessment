@@ -9,6 +9,25 @@ def integer_checker(question):
             print(error)
 
 
+def skill_level_mult(skill_level):
+    if 11 > skill_level > 0:
+        if skill_level <= 3:
+            # easiest skill level (easy)
+            skill_level_multiplier = 1
+            return skill_level_multiplier
+        elif skill_level <= 5:
+            # 2nd easiest skill level (medium)
+            skill_level_multiplier = 2
+            return skill_level_multiplier
+        elif skill_level <= 8:
+            # 2nd hardest skill level (hard)
+            skill_level_multiplier = 3
+            return skill_level_multiplier
+        elif skill_level <= 10:
+            # hardest skill level (insane)
+            skill_level_multiplier = 4
+            return skill_level_multiplier
+
 age_difficulty = 0
 skill_level = 0
 skill_level_multiplier = 0
@@ -35,19 +54,7 @@ while age_difficulty == 0:
 # asks for skill level and changes difficulty accordingly
 while skill_level_multiplier == 0:
     skill_level = integer_checker("\nOn a scale from 1-10, what would you say your skill level is?: ")
-    if 11 > skill_level > 0:
-        if skill_level <= 3:
-            # easiest skill level (easy)
-            skill_level_multiplier = 1
-        elif skill_level <= 5:
-            # 2nd easiest skill level (medium)
-            skill_level_multiplier = 2
-        elif skill_level <= 8:
-            # 2nd hardest skill level (hard)
-            skill_level_multiplier = 3
-        elif skill_level <= 10:
-            # hardest skill level (insane)
-            skill_level_multiplier = 4
+    skill_level_multiplier = skill_level_mult(skill_level)
 # calculates total difficulty (when fully integrated add played_before)
 total_difficulty = skill_level_multiplier + age_difficulty
 print("\nYour total difficulty is", total_difficulty)

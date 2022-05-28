@@ -62,7 +62,7 @@ while play_again == "":
     played_before = "/"
     rules = 0
     show_rules = ""
-    rules_text = "The rules are quite simple\nThis will be a multiple choice quiz. \nEnter either A, B, C or D to answer each question, and no cheating!"
+    rules_text = "The rules are quite simple\n This will be a multiple choice quiz. \n Enter either A, B, C or D to answer each question, and no cheating!"
     age_difficulty = 0
     skill_level = 0
     skill_level_multiplier = 0
@@ -73,27 +73,32 @@ while play_again == "":
     question_difficulty = 0
     topic_selector = 6
     topic_choice = ""
-    topics = ["days of the week", "numbers", "months", "word translations", "common phrase translation",
-              "simple sentence translations"]
+    topics = ["days of the week", "numbers", "colours", "word translations", "actions", "months"]
     days_of_the_week_maori = ["rahina", "ratu", "raapa", "rapare", "ramere", "rahoroi", "ratapu"]
     days_of_the_week_english = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
-    numbers_maori = ["tahi", "rua", "toru", "wha", "rima", "ono", "whitu", "iwa", "tekau", "rua tekau", "rima tekau",
+    numbers_maori = ["tahi", "rua", "toru", "wha", "rima", "ono", "whitu", "waru", "iwa", "tekau", "rua tekau", "rima tekau",
                      "kotahi rau"]
     numbers_english = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "twenty",
-                       "one hundred"]
+                       "fifty", "one hundred"]
     months_maori = ["Kohi-tātea", "Hui-tanguru", "Poutū-te-rangi", "Paenga-whāwhā", "Haratua", "Pipiri", "Hōngongoi",
                     "Here-turi-kōkā", "Mahuru", "Whiringa-ā-nuku", "Whiringa-ā-rangi", "Hakihea"]
     months_english = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october",
                       "november", "december"]
     word_translations_maori = ["aroha", "awa", "haka", "iwi", "kai", "karakia", "marae", "maunga", "moana", "tamariki", "tapu"]
     word_translations_english = ["love", "river", "dance", "river", "food", "prayer", "meeting house", "mountain", "ocean", "children", "sacred"]
-    common_phrase_translation_maori = []
+    colours_maori = ["ma", "whero", "kowhai", "kakariki", "pango", "mawhero", "kahurangi", "kiwikiwi", "karaka", "tawa"]
+    colours_english = ["white", "red", "yellow", "green", "black", "pink", "blue", "grey", "orange", "purple"]
+    actions_maori = ["oma", "peke", "kikoi", "e tu", "e noho", "pakipaki", "hurihuri", "korero", "whakarongo", "tangi"]
+    actions_english = ["run", "jump", "walking", "stand up", "sit down", "clap", "spin", "talk", "listen", "cry"]
 
+    colours = [colours_maori, colours_english]
+    months = [months_maori, months_english]
     days_of_the_week = [days_of_the_week_maori, days_of_the_week_english]
     numbers = [numbers_maori, numbers_english]
-    word_translations = [word_translations_english, word_translations_maori]
+    word_translations = [word_translations_maori, word_translations_english]
+    actions = [actions_maori, actions_english]
 
-    all_topics = [days_of_the_week, numbers, word_translations]
+    all_topics = [days_of_the_week, numbers, colours, word_translations, actions, months]
     red_herrings = ["pūmau", "whakarite", "mema", "mate", "werawera", "ngawari", "pahua", "paunatia", "pounamu", "pupuhi",
                     "whitinga ra", "kia", "purini", "hararei", "muramura", "moemoeā", "hoko atu", "kawe waka"]
     asked_question = ""
@@ -119,7 +124,7 @@ while play_again == "":
           "We hope you have a fantastic time and good luck.\n")
     # this component asks if the user has played before
     while played_before == "/":
-        played_before = input("Have you played this quiz before?: ")
+        played_before = input("Have you played this quiz before?(yes/no): ")
         if played_before.lower() == "yes":
             # this changes the difficulty based on whether the player has played before
             new_player_difficulty = 1
@@ -137,10 +142,9 @@ while play_again == "":
         show_rules = input("do you need a refresher on the rules?: ")
         if show_rules.lower() == "yes":
             print("\n", rules_text)
-        elif show_rules.lower() == "no":
+        if show_rules.lower() == "no":
             print("\nAwesome, let's go!")
-        else:
-            print(rules_text)
+
     else:
         print(rules_text)
     # asks for name and then says hello
@@ -176,13 +180,13 @@ while play_again == "":
     # calculates total difficulty (when fully integrated add played_before)
     total_difficulty = skill_level_multiplier + age_difficulty
 
-    if difficulty <= 2:
+    if total_difficulty <= 2:
         question_difficulty = 1
-    elif 2 < difficulty <= 3:
+    elif 2 < total_difficulty <= 3:
         question_difficulty = 2
-    elif 3 < difficulty <= 5:
+    elif 3 < total_difficulty <= 5:
         question_difficulty = 3
-    elif 5 < difficulty <= 7:
+    elif 5 < total_difficulty <= 7:
         question_difficulty = 4
     else:
         print("error")
@@ -204,16 +208,16 @@ while play_again == "":
         elif topic_choice.lower() == "numbers":
             print("you chose", topic_choice, "\ngreat choice")
             topic_selector = 1
-        elif topic_choice.lower() == "months":
+        elif topic_choice.lower() == "colours":
             print("you chose", topic_choice, "\ngreat choice")
             topic_selector = 2
         elif topic_choice.lower() == "word translations":
             print("you chose", topic_choice, "\ngreat choice")
             topic_selector = 3
-        elif topic_choice.lower() == "common phrase translation":
+        elif topic_choice.lower() == "actions":
             print("you chose", topic_choice, "\ngreat choice")
             topic_selector = 4
-        elif topic_choice.lower() == "simple sentence translations":
+        elif topic_choice.lower() == "months":
             print("you chose", topic_choice, "\ngreat choice")
             topic_selector = 5
         else:
@@ -279,7 +283,7 @@ while play_again == "":
     print("\n****************************\nfinal score\nright:", answer_right_int, "\nwrong:", answer_wrong_int, "\nattempted:", question, "\npercentage correct %", percentage_right)
 
     play_again = input("do you wish to play again?: ")
-    if play_again.upper == "YES":
+    if play_again.upper() == "YES" or "Y":
         play_again = ""
         print("Ok, let's go!")
     else:
