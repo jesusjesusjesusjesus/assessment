@@ -1,6 +1,6 @@
 import random
 
-
+# checks if input is an int, if not returns an error
 def integer_checker(question):
     error = "\nSorry, you must enter an integer\n"
     number = ""
@@ -11,7 +11,7 @@ def integer_checker(question):
         except ValueError:
             print(error)
 
-
+# checks if input is an str, if not returns an error
 def string_checker(question):
     error = "\nSorry, you must enter a string\n"
     word = ""
@@ -22,14 +22,14 @@ def string_checker(question):
         except ValueError:
             print(error)
 
-
+#selects a random lead-in and returns it to the main code
 def random_question_welcome():
     welcome = ["now for question", "now, onto question",
                "1,2,3,4... umm... time for question", "next question! question"]
     welcome_message = random.choice(welcome)
     return welcome_message
 
-
+# finds where the duplicate is in a given 4 no list
 def duplicate_finder(list):
     if list[0] == list[1]:
         return [0, 1]
@@ -46,7 +46,7 @@ def duplicate_finder(list):
     else:
         return list
 
-
+# checks if there is a duplicate in a given list
 def checkIfDuplicates_1(listOfElems):
     if len(listOfElems) == len(set(listOfElems)):
         return False
@@ -54,7 +54,7 @@ def checkIfDuplicates_1(listOfElems):
         return True
 
 
-# this is the welcome and rules component V1
+# this is the play again loop and var
 play_again = ""
 
 while play_again == "":
@@ -73,6 +73,7 @@ while play_again == "":
     question_difficulty = 0
     topic_selector = 6
     topic_choice = ""
+    # topics database
     topics = ["days of the week", "numbers", "colours", "word translations", "actions", "months"]
     days_of_the_week_maori = ["rahina", "ratu", "raapa", "rapare", "ramere", "rahoroi", "ratapu"]
     days_of_the_week_english = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
@@ -99,8 +100,10 @@ while play_again == "":
     actions = [actions_maori, actions_english]
 
     all_topics = [days_of_the_week, numbers, colours, word_translations, actions, months]
+    # wrong answers
     red_herrings = ["pūmau", "whakarite", "mema", "mate", "werawera", "ngawari", "pahua", "paunatia", "pounamu", "pupuhi",
                     "whitinga ra", "kia", "purini", "hararei", "muramura", "moemoeā", "hoko atu", "kawe waka"]
+    #other vars
     asked_question = ""
     questions_asked = 1
     question = 0
@@ -177,9 +180,9 @@ while play_again == "":
             elif skill_level <= 10:
                 # hardest skill level (insane)
                 skill_level_multiplier = 4
-    # calculates total difficulty (when fully integrated add played_before)
+    # calculates total difficulty
     total_difficulty = skill_level_multiplier + age_difficulty
-
+# determines question difficulty based on difficulty
     if total_difficulty <= 2:
         question_difficulty = 1
     elif 2 < total_difficulty <= 3:
@@ -190,7 +193,7 @@ while play_again == "":
         question_difficulty = 4
     else:
         print("error")
-
+# show avaliable topics based on question difficulty
     if question_difficulty == 1:
         print("These are your available topics", topics[0:2])
     elif question_difficulty == 2:
@@ -199,7 +202,7 @@ while play_again == "":
         print("These are your available topics", topics[0:5])
     elif question_difficulty == 4:
         print("These are your available topics", topics[0:])
-
+# shows which topic you chose, and sets topic to that
     while topic_selector == 6:
         topic_choice = input("pick a topic: ")
         if topic_choice.lower() == "days of the week":
@@ -223,17 +226,18 @@ while play_again == "":
         else:
             print("seems you either did not enter a valid answer or you spelt it incorrectly\nlets try again")
             topic_selector = 6
-
+# it will determine a random word from the right list and also grab the corresponding translation
     while question <= 5:
         asked_question = ""
         print(random_question_welcome(), questions_asked)
         while asked_question == "":
             question_selected = random.choice(all_topics[topic_selector][1])
             number_in_list = all_topics[topic_selector][1].index(question_selected)
+            # puts chosen word in a used list so it cannot be used again
             if question_selected not in used_list:
                 used_list.append(question_selected)
                 asked_question = question_selected
-
+# prints the question and determines in what order the answers go and checks for duplicates
         print(question_selected, "translates to:")
         right_answer = random.randint(0, 3)
         wrong_answer_one = random.choice(red_herrings)
@@ -244,17 +248,18 @@ while play_again == "":
         multi_choice.append(wrong_answer_three)
         multi_choice.insert(right_answer, all_topics[topic_selector][0][number_in_list])
         contains_duplicates = checkIfDuplicates_1(multi_choice)
+        # if contains duplicates it changes the first word of the two doubled up
         while contains_duplicates:
             dup_int = duplicate_finder(multi_choice)
             double_no = dup_int[0]
             multi_choice[double_no] = random.choice(red_herrings)
             contains_duplicates = checkIfDuplicates_1(multi_choice)
-
+        # prints answers
         print("A.", multi_choice[0])
         print("B.", multi_choice[1])
         print("C.", multi_choice[2])
         print("D.", multi_choice[3])
-
+        # askes for the correct answer and sets a var accordingly
         while answer == "":
             answer = input("\npick the correct answer (A B C or D)\n: ")
             if answer.upper() == "A":
@@ -268,20 +273,21 @@ while play_again == "":
             else:
                 print("you answered", answer.upper(), "this is not a valid answer")
                 answer = ""
+        # adds to either the correct score or the wrong score depending on answer
         if answer_int == right_answer:
             answer_right_int += 1
         elif answer_int != right_answer:
             answer_wrong_int += 1
         answer = ""
-
+        # clears the answer list and shows scores
         del multi_choice[0:4]
         print("\nright:", answer_right_int, "wrong:", answer_wrong_int, "\n********************")
         questions_asked += 1
         question += 1
-
+    # at the end of the game after the six reps of the questions, displays correct, wrong, attempted and right percentage
     percentage_right = answer_right_int / question * 100
     print("\n****************************\nfinal score\nright:", answer_right_int, "\nwrong:", answer_wrong_int, "\nattempted:", question, "\npercentage correct %", percentage_right)
-
+    # asks if they want to play again, and starts the game again if they say yes, and ends if they say no
     play_again = input("do you wish to play again?: ")
     if play_again.upper() == "YES" or "Y":
         play_again = ""
